@@ -34,7 +34,7 @@ jobs:
       env:
         dest: '${{ secrets.USERNAME }}@${{ secrets.PUBLIC_IP }}:/srv/hello_world/'
       run: |
-        echo "${{ secrets.SSH_PUBLIC_KEY }}" >> deploy_key
+        echo "${{ secrets.SSH_KEY }}" >> deploy_key
         chmod 600 ./deploy_key
         ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.PUBLIC_IP }}        
         rsync -charlvzi --delete \
