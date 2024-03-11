@@ -45,3 +45,18 @@ jobs:
           --exclude '/cgi-bin/' \
           --exclude 'README.md' \
           ./ ${{env.dest}}
+          
+    - name: SSH into EC2 and Run Commands towards running jar file
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+        SSH_USERNAME: ${{ secrets.USERNAME }}
+        EC2_PUBLIC_IP: ${{ secrets.PUBLIC_IP }}
+      run: |
+        ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no ${SSH_USERNAME}@${EC2_PUBLIC_IP} << 'EOF'
+          # Kill processes using port 8080
+          sudo kill -9 $(sudo lsof -t -i:8080)
+
+          # Run .jar file in the background
+          cd /srv/hello_world/target/
+          java -jar demo-0.0.1-SNAPSHOT.jar &
+        EOF
