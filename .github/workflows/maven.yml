@@ -24,4 +24,3 @@ jobs:
       USERNAME: ${{ secrets.USERNAME }}
       PUBLIC_IP: ${{ secrets.PUBLIC_IP }}
       SSH_KEY: ${{ secrets.SSH_KEY }}
-      runs-on: ubuntu-latest
